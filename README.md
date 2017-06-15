@@ -1,12 +1,8 @@
- keep learning...
- test
+#keep learning...
 #1 init Git
-####1
-git网站上创建项目
-####2
-复制ssh地址
-####3
-.gitignore 文件用于过滤 提交文件
+####1git网站上创建项目
+####2复制ssh地址
+####3.gitignore 文件用于过滤 提交文件
 #常用git命令
 ######touch README.md 创建文件
 ######git init 初始化项目
