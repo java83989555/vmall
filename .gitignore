@@ -27,3 +27,5 @@
 #maven ignore
 target/
 
+src/main/java/
+src/main/test/
