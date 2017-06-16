@@ -10,6 +10,7 @@
 >* git status 查看状态
 >* git add . 添加变更文件到本地仓库
 >* git commit -am"XXXXX" 提交到本地仓库+注释
+>* git remote add origin 复制的ssh地址====
 >* git remote add origin 复制ssh地址跟在后面
 >* git branch 查看分支
 >* git branch -r
@@ -18,4 +19,4 @@
 >* git pull 拉取git网站上的代码
 >* git push -u origin master 推送代码
 >* git push -u -f origin master 如果上面没成功 采用这个强制更新
-
+>* git log 可查看历史记录 
