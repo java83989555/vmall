@@ -10,7 +10,7 @@
 >* git status 查看状态
 >* git add . 添加变更文件到本地仓库
 >* git commit -am"XXXXX" 提交到本地仓库+注释
->* git remote add origin 复制到ssh地址
+>* git remote add origin 复制的ssh地址
 >* git branch 查看分支
 >* git branch -r
 >* git checkout -b v1.0 origin/master 在master基础上创建分支
