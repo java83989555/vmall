@@ -19,4 +19,4 @@
 >* git pull 拉取git网站上的代码
 >* git push -u origin master 推送代码
 >* git push -u -f origin master 如果上面没成功 采用这个强制更新
->* git diff 文件名 可以查看修改的内容
+>* git log 可查看历史记录 
