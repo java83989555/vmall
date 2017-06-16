@@ -17,6 +17,6 @@
 >* git checkout -b v1.0 origin/master 在master基础上创建分支
 >* git push origin HEAD -u 提交到远程创建到分支   
 >* git pull 拉取git网站上的代码
->* git push -u origin master 推送代码
+>* git push -u origin master 推送代码给指定分支
 >* git push -u -f origin master 如果上面没成功 采用这个强制更新
 >* git log 可查看历史记录 
