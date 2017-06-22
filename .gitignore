@@ -22,7 +22,9 @@
 *.diff
 *.patch
 *.tmp
-
+*.sql
+*.mwb
+*.bak
 
 #maven ignore
 target/

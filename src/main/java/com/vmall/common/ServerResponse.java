@@ -1,6 +1,7 @@
 package com.vmall.common;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
 
@@ -9,6 +10,9 @@ import java.io.Serializable;
  * DATE:2017/6/18
  * TIME:下午3:38
  */
+
+@JsonSerialize(include =  JsonSerialize.Inclusion.NON_NULL)
+//保证序列化json的时候,如果是null的对象,key也会消失
 public class ServerResponse<T> implements Serializable {
     private Integer status;
     private T data;

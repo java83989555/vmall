@@ -5,7 +5,7 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoding>UTF-8</encoding>
         <encoder>
-            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+            <Pattern>[%gray(%d{HH:mm:ss.SSS})] -- %highlight([%p]) -- [%boldYellow(%thread) >>>> %F:%L >>>> %boldMagenta(Method) = %M] -- [%boldBlue(Output Content) = %cyan(%m)]%n</Pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
@@ -16,9 +16,9 @@
     <appender name="vmall" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/vmalllog/vmall.log</File>-->
         <!--生成环境目录-->
-        <File>/Users/mac/Tools/apache-tomcat-8.5.11/logs/vmall.log</File>
+        <File>/Users/mac/Tools/apache-tomcat-8.5.11/logs/vmall/vmall.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/Users/mac/Tools/apache-tomcat-8.5.11/logs/vmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>/Users/mac/Tools/apache-tomcat-8.5.11/logs/vmall/vmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
@@ -31,9 +31,9 @@
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/mmalllog/error.log</File>-->
         <!--生成环境目录-->
-        <File>/Users/mac/Tools/apache-tomcat-8.5.11/logs/error.log</File>
+        <File>/Users/mac/Tools/apache-tomcat-8.5.11/logs/vmall/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/Users/mac/Tools/apache-tomcat-8.5.11/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>/Users/mac/Tools/apache-tomcat-8.5.11/logs/vmall/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <!--<fileNamePattern>d:/mmalllog/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
             <append>true</append>
             <maxHistory>10</maxHistory>
@@ -56,8 +56,7 @@
 
 
 
-    <!-- geelynote mybatis log 日志 -->
-
+    <!--  mybatis log 日志 -->
     <logger name="com.vmall.dao" level="DEBUG"/>
 
     <!--<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" >-->
