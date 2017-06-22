@@ -10,6 +10,8 @@ public enum ResponseCode {
     ERROR(-1, "ERROR"),
     NEED_LONGIN(10,"NEED_LOGIN"),
     ILLEGAL_ARGUMENT(2,"ILLEGAL_ARGUMENT");
+
+
     private final Integer code;
     private final String desc;
 

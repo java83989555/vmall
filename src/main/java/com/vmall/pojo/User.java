@@ -1,6 +1,9 @@
 package com.vmall.pojo;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import java.util.Date;
+
 
 public class User {
     private Integer id;
