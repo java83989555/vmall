@@ -61,7 +61,7 @@
 > #####5.如果`git pull`提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream branch-name origin/branch-name`
 
 
-###Coding get... ...
+###Coding... ...  
 ####User module
 >1.enum 枚举 其本身就是一个java类，他继承类java.lang.enum
 [详细介绍连接](http://www.cnblogs.com/hemingwang0902/archive/2011/12/29/2306263.html#title-1),本项目做常量使用。
@@ -104,7 +104,7 @@
 * 搭建花了 一天半时间 --!! 收获   
     1.增加了对linux的熟悉程度  
     2.一般教程都把整个流程写的一蹴而就，实际应当对颗粒修改立即调试，逐步完成整套安装达到最终效果。  
-    3.最坑的是安装完了 最后put [本地文件目录及文件名] [远程文件目录和文件名]  命令格式不熟悉搞了接近小半天,被linux的权限带入误区,一直以为权限带来的问题
+    3.最坑的是安装完了,最后 put[本地文件目录及文件名] [远程文件目录和文件名] 命令格式不熟悉搞了接近小半天,一直以为权限带来的问题
 
 
 
