@@ -1,0 +1,39 @@
+package com.vmall.vo;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+/**
+ * Created by GV
+ * DATE:2017/7/1
+ * TIME:上午10:19
+ */
+public class OrderProductVo {
+    private List<OrderItemVo> orderItemVoList;
+    private BigDecimal productTotalPrice;
+    private String imageHost;
+
+    public List<OrderItemVo> getOrderItemVoList() {
+        return orderItemVoList;
+    }
+
+    public void setOrderItemVoList(List<OrderItemVo> orderItemVoList) {
+        this.orderItemVoList = orderItemVoList;
+    }
+
+    public BigDecimal getProductTotalPrice() {
+        return productTotalPrice;
+    }
+
+    public void setProductTotalPrice(BigDecimal productTotalPrice) {
+        this.productTotalPrice = productTotalPrice;
+    }
+
+    public String getImageHost() {
+        return imageHost;
+    }
+
+    public void setImageHost(String imageHost) {
+        this.imageHost = imageHost;
+    }
+}

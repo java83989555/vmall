@@ -19,11 +19,12 @@ public class PropertiesUtil {
     private static Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
 
     private static Properties props;
-
+    //静态块初始化静态资源
     static {
         String fileName = "vmall.properties";
         props = new Properties();
         try {
+            //读取resource文件夹下文件
             props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
         } catch (IOException e) {
             logger.error("配置文件读取异常",e);

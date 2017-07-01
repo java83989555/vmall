@@ -29,6 +29,45 @@
     from vmall_order
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+    <select id="selectByOrderNoAndUserId" resultMap="BaseResultMap" parameterType="map">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM vmall_order
+      where order_no=#{orderNo}
+      and user_id=#{userId}
+    </select>
+  <select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="long">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM  vmall_order
+    WHERE order_no=#{orderNo}
+  </select>
+
+  <select id="selectByUserIdAndOrderNo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    from vmall_order
+    where order_no = #{orderNo}
+    and user_id = #{userId}
+
+  </select>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from vmall_order
+    where user_id = #{userId}
+    order by create_time desc
+  </select>
+
+  <select id="getByOrderNo" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from vmall_order_item
+    where order_no = #{orderNo}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from vmall_order
     where id = #{id,jdbcType=INTEGER}

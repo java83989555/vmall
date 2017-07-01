@@ -53,28 +53,32 @@
 >* `git tag branch-name `
 >* `git tag <name>`用于新建一个标签
 >* `git tag v0.9 6224937` 对指定commit id 打标签
->* `git show <tagname>` 查看指定标签的信息
+>* `git show <tagname>` 查看指定标签的信息  
+>*  需要注意不能与分支重名否则push不上
 ####别名--偷懒
 >* `git config --global alias.co checkout`
 >* `git config --global alias.ci commit`
 >* `git config --global alias.br branch`
 
 ####多人协作的工作模式通常是这样：
-> #####1.首先，可以试图用`git push origin branch-name`推送自己的修改；
-> #####2.如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；
-> #####3.如果合并有冲突，则解决冲突，并在本地提交；
-> #####4.没有冲突或者解决掉冲突后， 再用`git push origin branch-name`推送就能成功！
-> #####5.如果`git pull`提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream branch-name origin/branch-name`
+> 1.首先，可以试图用`git push origin branch-name`推送自己的修改；   
+> 2.如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；  
+> 3.如果合并有冲突，则解决冲突，并在本地提交；  
+> 4.没有冲突或者解决掉冲突后， 再用`git push origin branch-name`推送就能成功！  
+> 5.如果`git pull`提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream branch-name origin/branch-name`
 
 
 ###Coding... ...  
 ####User module
->1.enum 枚举 其本身就是一个java类，他继承类java.lang.enum  
-[详细介绍连接](http://www.cnblogs.com/hemingwang0902/archive/2011/12/29/2306263.html#title-1),本项目做常量使用。  
->2.StringUtils 字符串工具类 解决了原来频繁判断null和空串的编码,后期长期使用org.apache.commons.commons-lang3  
->3.缓存的使用,本项目中用的是google的Guava缓存,主要用来储存一定有效期的数据，通过缓存设置存储空间大小，有效期时间，key-value形式存储[参考资料](http://ifeve.com/google-guava-cachesexplained/)
+1.enum 枚举 其本身就是一个java类，他继承类java.lang.enum[详细介绍连接](http://www.cnblogs.com/hemingwang0902/archive/2011/12/29/2306263.html#title-1),本项目做常量使用。  
+2.StringUtils 字符串工具类 解决了原来频繁判断null和空串的编码,后期长期使用org.apache.commons.commons-lang3  
+3.缓存的使用,本项目中用的是google的Guava缓存,主要用来储存一定有效期的数据，通过缓存设置存储空间大小，有效期时间，key-value形式存储[参考资料](http://ifeve.com/google-guava-cachesexplained/)
 
 ####Category module
+1.递归表结构
+2.递归查询  
+
+####Product module
 1.linux下安装ftp服务器--[cenos7 优秀教程](http://blog.csdn.net/uq_jin/article/details/51684722)  
 > 1.`sudo yum -y install vsftpd`  安装  
 > 2.`cd /`  切换到根目录  
@@ -110,5 +114,18 @@
     2.一般教程都把整个流程写的一蹴而就，实际应当对颗粒修改立即调试，逐步完成整套安装达到最终效果。  
     3.最坑的是安装完了,最后 put[本地文件目录及文件名] [远程文件目录和文件名] 命令格式不熟悉搞了接近小半天,一直以为权限带来的问题
 
+2.PageHelper的基本用法
+> 1.声明分页和排序  
+`PageHelper.startPage(page, size);`  
+`PageHelper.orderBy(orderBys[0]+" "+orderBys[1]);`  
+> 2.执行正常查询  
+> 3.处理结果  
+`PageInfo pageInfo=new PageInfo(productList);`  
+`pageInfo.setList(productListVoList);`  
 
-
+3.spring mvc 文件上传  
+> 1.前端`<form name="form1" action="/manage/product/upload.do" method="post" enctype="multipart/form-data"></form>`  
+> 2.后台接收`public ServerResponse upload(HttpSession session,@RequestParam(value = "upload_file") MultipartFile file,HttpServletRequest request)`  
+> 3.重命名暂存在服务器路径下  
+> 4.发送到ftp服务器储存,此处用到FTPUtil工具类负责连接ftp服务及上传文件,构建方式值得学习  
+> 5.返回地址和文件名至前端  
