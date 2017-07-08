@@ -38,7 +38,6 @@ public class OrderController {
     private static  final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 
-
     @RequestMapping("create")
     @ResponseBody
     public ServerResponse create(HttpSession session, Integer shippingId){
@@ -68,6 +67,7 @@ public class OrderController {
         }
         return iOrderService.getOrderCartProduct(user.getId());
     }
+
     @RequestMapping("detail")
     @ResponseBody
     public ServerResponse detail(HttpSession session,Long orderNo){
@@ -79,7 +79,7 @@ public class OrderController {
     }
 
 
-    @RequestMapping("list.do")
+    @RequestMapping("list")
     @ResponseBody
     public ServerResponse list(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
@@ -147,7 +147,6 @@ public class OrderController {
         if(user ==null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
-
         ServerResponse serverResponse = iOrderService.queryOrderPayStatus(user.getId(),orderNo);
         if(serverResponse.isSuccess()){
             return ServerResponse.createBySuccess(true);

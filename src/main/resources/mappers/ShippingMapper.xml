@@ -27,7 +27,7 @@
         from vmall_shipping
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByShippingIdUserId" resultType="com.vmall.pojo.Shipping">
+    <select id="selectByShippingIdUserId" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         from vmall_shipping
@@ -49,7 +49,7 @@
     where id = #{shippingId}
     and user_id = #{userId}
   </delete>
-    <insert id="insert" parameterType="com.vmall.pojo.Shipping">
+    <insert id="insert" parameterType="com.vmall.pojo.Shipping" useGeneratedKeys="true" keyProperty="id">
     insert into vmall_shipping (id, user_id, receiver_name, 
       receiver_phone, receiver_mobile, receiver_province, 
       receiver_city, receiver_district, receiver_address, 
@@ -58,7 +58,7 @@
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, 
       #{receiverPhone,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, #{receiverProvince,jdbcType=VARCHAR}, 
       #{receiverCity,jdbcType=VARCHAR}, #{receiverDistrict,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, 
-      #{receiverZip,jdbcType=VARCHAR}, now(), #{updateTime,jdbcType=TIMESTAMP}
+      #{receiverZip,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
     <insert id="insertSelective" parameterType="com.vmall.pojo.Shipping">
@@ -136,7 +136,7 @@
                 now(),
             </if>
             <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
+                now(),
             </if>
         </trim>
     </insert>

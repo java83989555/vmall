@@ -29,6 +29,7 @@ public class ShippingServiceImpl implements IShippingService {
     public ServerResponse add(Integer userId, Shipping shipping){
         shipping.setUserId(userId);
         int rowCount = shippingMapper.insert(shipping);
+
         if(rowCount > 0){
             Map result = Maps.newHashMap();
             result.put("shippingId",shipping.getId());
@@ -56,11 +57,12 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
     public ServerResponse<Shipping> select(Integer userId, Integer shippingId){
+
         Shipping shipping = shippingMapper.selectByShippingIdUserId(userId,shippingId);
         if(shipping == null){
             return ServerResponse.createByErrorMessage("无法查询到该地址");
         }
-        return ServerResponse.createBySuccess("更新地址成功",shipping);
+        return ServerResponse.createBySuccess("查找地址成功",shipping);
     }
 
 

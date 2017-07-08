@@ -1,11 +1,11 @@
 #keep learning...
 
->##init project repository  
+###init project repository  
 > 1.git网站上创建远程仓库  
 > 2.复制ssh地址 本地仓库管理远程仓库  
 > 3.gitignore 文件用于过滤 提交文件  
 
-> ##git命令
+###git命令
 >* `touch README.md` 创建文件
 >* `git init` #初始化项目
 >* `git status` #查看状态
@@ -21,7 +21,7 @@
 >* `git checkout` -- 文件名 #可以撤销工作区的修改 总之，就是让这个文件回到最近一次git commit或git add时的状态
 >* `git reset HEAD file`  #可以把暂存区的修改撤销掉（unstage），重新放回工作区
 
-> ####分支操作
+####分支操作
 >* `git branch` 查看分支：
 >* `git branch -a`  查看远程仓库和本地分支
 >* `git branch branch-name` 创建分支：
@@ -70,19 +70,82 @@
 
 ###Coding... ...  
 ####User module
-1.enum 枚举 其本身就是一个java类，他继承类java.lang.enum[详细介绍连接](http://www.cnblogs.com/hemingwang0902/archive/2011/12/29/2306263.html#title-1),本项目做常量使用。  
-2.StringUtils 字符串工具类 解决了原来频繁判断null和空串的编码,后期长期使用org.apache.commons.commons-lang3  
-3.缓存的使用,本项目中用的是google的Guava缓存,主要用来储存一定有效期的数据，通过缓存设置存储空间大小，有效期时间，key-value形式存储[参考资料](http://ifeve.com/google-guava-cachesexplained/)
+>1.enum 枚举 其本身就是一个java类，他继承类java.lang.enum[详细介绍连接](http://www.cnblogs.com/hemingwang0902/archive/2011/12/29/2306263.html#title-1),本项目做常量使用。  
+>2.StringUtils 字符串工具类 解决了原来频繁判断null和空串的编码,后期长期使用org.apache.commons.commons-lang3  
+>3.缓存的使用,本项目中用的是google的Guava缓存,主要用来储存一定有效期的数据，通过缓存设置存储空间大小，有效期时间，key-value形式存储[参考资料](http://ifeve.com/google-guava-cachesexplained/)
 
 ####Category module
-1.递归表结构
-2.递归查询  
+>1.递归表结构
+>2.递归查询  
 
 ####Product module
-1.linux下安装ftp服务器--[cenos7 优秀教程](http://blog.csdn.net/uq_jin/article/details/51684722)  
+
+1.PageHelper的基本用法
+> 1.声明分页和排序  
+`PageHelper.startPage(page, size);`  
+`PageHelper.orderBy(orderBys[0]+" "+orderBys[1]);`  
+> 2.执行正常查询  
+> 3.处理结果  
+`PageInfo pageInfo=new PageInfo(productList);`  
+`pageInfo.setList(productListVoList);`  
+
+3.spring mvc 文件上传  
+> 1.前端`<form name="form1" action="/manage/product/upload.do" method="post" enctype="multipart/form-data"></form>`  
+> 2.后台接收`public ServerResponse upload(HttpSession session,@RequestParam(value = "upload_file") MultipartFile file,HttpServletRequest request)`  
+> 3.重命名暂存在服务器路径下  
+> 4.发送到ftp服务器储存,此处用到FTPUtil工具类负责连接ftp服务及上传文件,构建方式值得学习  
+> 5.返回地址和文件名至前端  
+  
+4.表结构中主图，子图，富文本详情的储存
+
+####Shipping module
+> 1.常规模块 熟悉一下数据表结构
+> 2.useGeneratedKeys="true" keyProperty="id" mybatis 插入数据返回id设置
+####Order module
+> 1.对接支付宝当面付款流程  
+> 2.沙箱测试环境的调试  
+> 3.订单操作接口中保证数据的对称,及返回前端的数据VO对象结构思想值得学习借鉴  
+> 4.` ./natapp -authtoken=2021a2d30ae70b65`外网穿透
+  
+####linux deploy
+准备服务器,如果购买阿里云ECS服务器,按正常购买步骤,注意配置安全组,可选择镜像市场中的配置好的镜像,也可自己配置以下为自己配置的全过程
+  
+1.配置aliyun数据源  
+> 1.`sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repo.d/CentOS-base.repo.backup`备份原始源    
+> 2.然后下载阿里云的数据源CentOS-Base.repo 到 /etc/yum.repos.d/ 目录 ,运行`wget -O /etc/yum.repos.d/CentOS-base.repo http://mirrors.aliyun.com/repo/Centos-7.repo`  
+> 3.运行`yum makecache`生成缓存  
+> 4.添加用户 并赋予sudo权限  `sudo vim /etc/sudoers` 
+ 
+2.安装配置jdk
+> 1.在根目录下创建`sudo mkdir developer` 然后创建 `sudo mkdir setup`  
+> 2.检查是否安装 openjdk `rpm -qa | grep jdk`  注意中间的是竖杠  `yum -y remove `后面根查询到的openjdk
+> 3.oracle 官网 拷贝连接 需要oracle账号 连接后要有 athtoken  
+> 4.`sudo mv 原文件名 新文件名`重命名    
+> 5.更改权限`sudo chmod 775`      
+> 6.安装jdk`sudo rpm -ivh 文件名` 安装结束可以到/usr/java/..文件夹下查看  
+> 7.配置环境变量 `sudo vim /etc/profile`   最后添加   
+`export JAVA_HOME=/usr/java/jdk1.8.0_121`  
+`export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar`
+> 8.`source /etc/profile`刷新配置  
+> 9.`java -version`检查安装是否安装成功  
+
+3.安装配置tomcat
+> 1.在developer目录下,下载tomcat 然后解压`sudo tar -zxvf 文件名`  将压缩的安装文件,移动到setup文件下`sudo mv 文件名 目录`    
+> 2.找到tomcat的conf文件夹下的server.xml文件,增加配置字符集`URIEncoding="UTF-8"`  
+> 3.运行tomcat测试bin目录下运行`sudo ./startup.sh`  
+> 4.访问ip：8080端口 查看
+> 5.关闭`sudo ./shutdown.sh`
+
+4.Maven
+> 1.在developer目录下,下载maven 然后解压`sudo tar -zxvf 文件名`  将压缩的安装文件,移动到setup文件下`sudo mv 文件名 目录`  
+> 2.配置环境变量 `sudo vim /etc/profile` 最后添加 `export MAVEN_HOME=/developer/apache-maven-3.0.5`  
+> 3.`source /etc/profile`刷新配置  
+> 4.`mvn -version` 验证
+
+5.Vsftpd
+linux下安装ftp服务器--[cenos7 优秀教程](http://blog.csdn.net/uq_jin/article/details/51684722)  
 > 1.`sudo yum -y install vsftpd`  安装  
 > 2.`cd /`  切换到根目录  
-> 3.`sudo mkdir ftpfile`   创建文件目录  
 > 4.`sudo rpm -qa|grep vsftpd`   检查安装情况  
 > 5.`sudo mkdir ftpfile`   创建文件目录  
 > 6.`[systemctl/service] vsftpd [status/start/stop/restart]` 分别为查看状态／启动／停止／重启
@@ -109,23 +172,68 @@
 > 20.`sudo setenforce 0`   
 > 21.`sudo service vsftpd restart` 重启vsftpd   
 > 22.`netstat -an|grep 21` 查看21端口下状态  
+> 23.由于安装的centOS 7 所以需要停用firewalld 开启iptables [配置连接](https://oracle-base.com/articles/linux/linux-firewall-firewalld?utm_source=tuicool#reverting-to-iptables)
+
 * 搭建花了 一天半时间 --!! 收获   
     1.增加了对linux的熟悉程度  
     2.一般教程都把整个流程写的一蹴而就，实际应当对颗粒修改立即调试，逐步完成整套安装达到最终效果。  
     3.最坑的是安装完了,最后 put[本地文件目录及文件名] [远程文件目录和文件名] 命令格式不熟悉搞了接近小半天,一直以为权限带来的问题
 
-2.PageHelper的基本用法
-> 1.声明分页和排序  
-`PageHelper.startPage(page, size);`  
-`PageHelper.orderBy(orderBys[0]+" "+orderBys[1]);`  
-> 2.执行正常查询  
-> 3.处理结果  
-`PageInfo pageInfo=new PageInfo(productList);`  
-`pageInfo.setList(productListVoList);`  
 
-3.spring mvc 文件上传  
-> 1.前端`<form name="form1" action="/manage/product/upload.do" method="post" enctype="multipart/form-data"></form>`  
-> 2.后台接收`public ServerResponse upload(HttpSession session,@RequestParam(value = "upload_file") MultipartFile file,HttpServletRequest request)`  
-> 3.重命名暂存在服务器路径下  
-> 4.发送到ftp服务器储存,此处用到FTPUtil工具类负责连接ftp服务及上传文件,构建方式值得学习  
-> 5.返回地址和文件名至前端  
+6.Nginx
+> 1.在developer目录下,下载nginx 然后解压`sudo tar -zxvf 文件名`  将压缩的安装文件,移动到setup文件下`sudo mv 文件名 目录`  
+> 2.`yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel`批量安装nginx依赖  
+> 3.进入在developer目录下nginx目录，`sudo ./configure`执行配置,结束继续执行`sudo make`,结束继续执行`sudo make install`  
+> 4.`cd /usr/local/nginx/conf/`编辑配置文件`sudo vim nginx.conf`,文件末尾添加`include vhost/*.conf;`用于导入反向代理配置文件,保存退出创建`sudo mkdir vhost`目录  
+> 5.在`vhost`目录下添加配置文件,... ...  
+> 6.切换到`sbin`目录下，`sudo ./nginx`启动nginx  
+> 7.`sbin`目录下,检查nginx配置文件是否有错误`./nginx -t`        
+> 8.`sbin`目录下,停止服务`./nginx -s quit` 或者 `./nginx -s stop`  
+> 9.`sbin`目录下,重启服务`./nginx -s reload`  
+> 10.`ps -ef | grep nginx` 查看进程  
+> 11.`kill -HUP [nginx的主进程号]` 平滑重启  
+> 12.`sudo vim /etc/sysconfig/iptables` 开放80端口给nginx,重启防火墙  
+
+nginx虚拟域名的设置
+> 1.在本机和linux服务器修改host `sudo vim /etc/hosts`  
+`10.211.55.7 www.happyvmall.com`  
+`10.211.55.7 image.happyvmall.com`
+
+  
+8.MySql
+> 1.检查是否安装了mysql `sudo rpm -qa | grep mysql-server`  
+> 2.安装`sudo yum mysql-server mysql-devel`  
+> 3.默认的配置文件位置在`vim /etc/my.cnf` 编辑字符集添加 `default-character-set=utf8` `character-set-server=utf8`    
+> 4.设置自动启动 `chkconfig mysqld on`,执行`chkconfig --list mysqld`查看（如果2-5位都是on则ok）   
+> 5.编辑防火墙开放3306端口，重启防火墙  
+
+Mysql 的配置
+> 1. 查看所有用户`select user,host,password from mysql.user`  mysql 5.7密码字段是 authentication_string     
+> 2. `set password for root@localhost=password('123456');` `set password for root@127.0.0.1=password('123456');` `ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';`    
+> 3. 删除匿名用户 `delete from mysql.user where user=''` 再次查看，然后刷新`flush privilege;`
+> 4. 插入新用户 `insert into mysql.user(Host,User,Password) values ("localhost","username",password("passowrd"))` 刷新
+> 5. 创建新的数据库database `CREATE DATABASE `vmall` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci` 注意数据库名称的点是数字1左边的点  
+> 6. 本地用户赋予所有权限`grant all privileges on vmall.* to username@localhost identified by 'password'`或者`grant all on *.* to username;`指定用户对所有表都都权限    
+> 7. 本地用户开通外网所有权限`grant all privileges on vmall.*to 'username'@'%' identified by 'password'`
+     指定ip开通指定权限`grant select,update,insert on vmall.*to 'username'@'192.168.1.104' identified by 'password'`  
+     
+9.Git
+> 1.在developer目录下,下载git ，然后解压`sudo tar -zxvf 文件名`  将压缩的安装文件,移动到setup文件下`sudo mv 文件名 目录`  
+> 2.下载依赖`sudo yum -y install zlib-devel openssl-devel cpio expat-devel gettext-devel curl-devel perl-ExtUtils-CBuilder perl-ExtUtils- MakeMaker`  
+> 3.安装到 `sudo make preifx=/usr/local/git all` 结束后继续`sudo make prefix=/usr/local/git install`  
+> 4.配置环境变量`sudo vim /etc/profile` 刷新环境变量`source /etc/profile`  
+> 5.设置用户名`git config --global user.name "Your Name"`设置邮箱`git config --global user.email "youremail@domain.com"`    
+> 6.
+> 6.
+> 6.
+> 6.
+
+10.iptables
+> 1.
+> 2.
+> 3.
+> 4.
+> 5.
+> 6.
+
+

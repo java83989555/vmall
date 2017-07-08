@@ -108,4 +108,11 @@ public class CategoryServiceImpl implements ICategoryService {
         }
         return categorySet;
     }
+
+    public static void main(String[] args) {
+        logger.info("info 数据");
+        logger.debug("debug 数据");
+        logger.error("error 数据");
+    }
+
 }

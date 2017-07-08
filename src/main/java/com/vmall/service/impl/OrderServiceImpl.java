@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -181,11 +182,11 @@ public class OrderServiceImpl implements IOrderService {
                 ZxingUtils.getQRCodeImge(response.getQrCode(), 256, qrPath);
 
                 File targetFile = new File(path, qrFileName);
-//                try {
-////                    FTPUtil.uploadFile(Lists.newArrayList(targetFile));
-//                } catch (IOException e) {
-//                    logger.error("上传二维码异常",e);
-//                }
+                try {
+                    FTPUtil.uploadFile(Lists.newArrayList(targetFile));
+                } catch (IOException e) {
+                    logger.error("上传二维码异常",e);
+                }
                 logger.info("qrPath:" + qrPath);
                 String qrUrl = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFile.getName();
                 resultMap.put("qrUrl", qrUrl);
@@ -358,7 +359,6 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public ServerResponse getOrderList(Integer userId, int pageNum, int pageSize) {
 
-
         PageHelper.startPage(pageNum,pageSize);
         List<Order> orderList = orderMapper.selectByUserId(userId);
         List<OrderVo> orderVoList = assembleOrderVoList(orderList,userId);
@@ -420,7 +420,7 @@ public class OrderServiceImpl implements IOrderService {
         shippingVo.setReceiverDistrict(shipping.getReceiverDistrict());
         shippingVo.setReceiverMobile(shipping.getReceiverMobile());
         shippingVo.setReceiverZip(shipping.getReceiverZip());
-        shippingVo.setReceiverPhone(shippingVo.getReceiverPhone());
+        shippingVo.setReceiverPhone(shipping.getReceiverPhone());
         return shippingVo;
     }
 
