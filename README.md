@@ -223,10 +223,12 @@ Mysql 的配置
 > 3.安装到 `sudo make preifx=/usr/local/git all` 结束后继续`sudo make prefix=/usr/local/git install`  
 > 4.配置环境变量`sudo vim /etc/profile` 刷新环境变量`source /etc/profile`  
 > 5.设置用户名`git config --global user.name "Your Name"`设置邮箱`git config --global user.email "youremail@domain.com"`    
-> 6.
-> 6.
-> 6.
-> 6.
+> 6.`git config --global core.autocrlf false` 换行符转换问题
+> 7.`git config --global core.quotepath off`  避免中文乱码问题 
+> 8.`git config --global gui.encoding utf-8` 
+> 9.`ssh-keygen -t rsa -C "83989555@qq.com"` 生成密钥
+> 10.`ssh-add ~/.ssh/id_rsa` 如果出现`Could not open a connection to your authentication agent.` 继续  eval `ssh-agent`  
+
 
 10.iptables
 > 1.
