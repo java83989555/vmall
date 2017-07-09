@@ -74,7 +74,7 @@
 >2.StringUtils 字符串工具类 解决了原来频繁判断null和空串的编码,后期长期使用org.apache.commons.commons-lang3    
 >3.缓存的使用,本项目中用的是google的Guava缓存,主要用来储存一定有效期的数据，通过缓存设置存储空间大小，有效期时间，key-value形式存储[参考资料](http://ifeve.com/google-guava-cachesexplained/)  
 
-前台接口
+前台接口  
 * `public Object login(String username, String password, HttpSession session)`登陆接口，验证账号及md5加密后的密码正确性，登陆成功用户保存入session    
 * `public ServerResponse<String> logout(HttpSession session)`登出接口，将用户移除session  
 * `public ServerResponse<String> register(User user)`注册接口，需验证邮箱和用户名保证唯一性，确定角色md5加密密码储存    
@@ -84,14 +84,14 @@
 * `public ServerResponse<String> forgetCheckAnswer(String username,String question,String answer)` 验证用户的提示问题和答案是否正确，如果正确生成token加入缓存
 * `public ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken)` 重置密码需要回传token，并验证旧密码，防止横向越权，验证成功重置密码
 
-后台接口
+后台接口  
 *`public ServerResponse<User> login(HttpSession session,String username,String password)`后台管理员登陆，验证角色及账号密码  
   
 ####Category module
 >1.递归表结构
 >2.递归查询  
 
-后台接口
+后台接口  
 *`public ServerResponse addCategory(HttpSession session, Integer parentId, String categoryName) `添加分类，如果是根节点则parentId=0
 *`public ServerResponse setCategoryName(HttpSession session, Integer categoryId, String categoryName)` 更新分类名称
 *`public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(defaultValue = "0", value = "categoryId") Integer categoryId) `获取当前分类下所有子分类
@@ -118,14 +118,14 @@
   
 4.表结构中主图，子图，富文本详情的储存
 
-前台接口
+前台接口  
 *`public ServerResponse detail(Integer productId)`
 *`public ServerResponse list(@RequestParam(value = "keyWord",required = false) String keyWord,
                                  @RequestParam(value = "categoryId",required = false) Integer categoryId,
                                  @RequestParam(value = "page",defaultValue = "1") int page,
                                  @RequestParam(value = "size",defaultValue = "10") int size,
                                  @RequestParam(value = "orderBy",defaultValue = "")String orderBy)`根据关键字或者分类id分页获取商品，注意获得是分类及所有子分类的商品
-后台接口
+后台接口  
 *`public ServerResponse save(HttpSession session, Product product)`新增或更新商品  
 *`public ServerResponse detail(HttpSession session,Integer productId)`获取商品详情  
 *`public ServerResponse setSaleStatus(HttpSession session,Integer productId,Integer status)`设置商品的销售状态
@@ -146,23 +146,23 @@
                                    HttpServletResponse response)`富文本上传图片，返回值为富文本要求格式，其余同上
                                    
 ####Cart module
-1.对购物车的所有操作最终都将返回整体购物车的信息，所以封装了高复用的购物车信息方法
+1.对购物车的所有操作最终都将返回整体购物车的信息，所以封装了高复用的购物车信息方法  
 
-*`public ServerResponse list(HttpSession session)`获取购物车列表数据
-*`public ServerResponse add(HttpSession session, Integer productId, Integer count) `用户将指定数量的指定商品加入购物车
-*`public ServerResponse update(HttpSession session, Integer productId, Integer count)`用户更新指定商品在购物车内的数量
-*`public ServerResponse delete(HttpSession session, String productIds) `用户删除购物车内的商品可批量
-*`public ServerResponse selectAll(HttpSession session)`全选
-*`public ServerResponse unSelectAll(HttpSession session)`取消全选
-*`public ServerResponse select(HttpSession session, Integer productId)`选中指定商品
-*`public ServerResponse unSelect(HttpSession session, Integer productId)`取消选中指定商品
-*`public ServerResponse getCartProductCount(HttpSession session)`获取商品的累加数量
+*`public ServerResponse list(HttpSession session)`获取购物车列表数据  
+*`public ServerResponse add(HttpSession session, Integer productId, Integer count) `用户将指定数量的指定商品加入购物车  
+*`public ServerResponse update(HttpSession session, Integer productId, Integer count)`用户更新指定商品在购物车内的数量  
+*`public ServerResponse delete(HttpSession session, String productIds) `用户删除购物车内的商品可批量  
+*`public ServerResponse selectAll(HttpSession session)`全选  
+*`public ServerResponse unSelectAll(HttpSession session)`取消全选  
+*`public ServerResponse select(HttpSession session, Integer productId)`选中指定商品  
+*`public ServerResponse unSelect(HttpSession session, Integer productId)`取消选中指定商品  
+*`public ServerResponse getCartProductCount(HttpSession session)`获取商品的累加数量  
 
 ####Shipping module
 > 1.常规模块 熟悉一下数据表结构
 > 2.useGeneratedKeys="true" keyProperty="id" mybatis 插入数据返回id设置
 
-前台接口
+前台接口  
 * 常规的增删改查结构，不多赘述了
 
 ####Order module
@@ -171,7 +171,7 @@
 > 3.订单操作接口中保证数据的对称,及返回前端的数据VO对象结构思想值得学习借鉴  
 > 4.` ./natapp -authtoken=2021a2d30ae70b65`外网穿透
   
-前台接口
+前台接口  
 *`public ServerResponse create(HttpSession session, Integer shippingId)`用户结算购物车内所有勾选的商品，创建订单 并 生成订单详情存入数据库（每件结算商品生成一个订单详情），注意减少库存和清除购物车；  
 *`public ServerResponse cancel(HttpSession session, Long orderNo)`用户取消订单，即更新订单状态  
 *`public ServerResponse getOrderCartProduct(HttpSession session)`获取用户购物车内勾选商品的信息  
@@ -179,7 +179,7 @@
 *`public ServerResponse list(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize)`分页用户的获取订单列表  
 *`public ServerResponse pay(HttpSession session, Long orderNo, HttpServletRequest request)`支付宝支付接口，向支付宝申请预下单，调用支付宝接入，得到支付宝下单成功则返回前端二维码图片的地址，提供回调接口被支付宝调用
 *`public ServerResponse<Boolean> queryOrderPayStatus(HttpSession session, Long orderNo)`前端用于轮询的订单状态  
-后台接口
+后台接口  
 *` public ServerResponse<PageInfo> orderList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
                                                 @RequestParam(value = "pageSize",defaultValue = "10")int pageSize)`管理员分页获取订单列表  
 *`public ServerResponse<OrderVo> orderDetail(HttpSession session, Long orderNo)`管理员获取指定订单的详情
@@ -309,6 +309,32 @@ Mysql 的配置
 > 9.`ssh-keygen -t rsa -C "83989555@qq.com"` 生成密钥  
 > 10.`ssh-add ~/.ssh/id_rsa` 如果出现`Could not open a connection to your authentication agent.` 继续  eval `ssh-agent`  
 
-
-
+##deploy.sh脚本
+`echo "===========进入git项目happymmall目录============="
+ cd /developer/git-repository/mmall
+ echo "==========git切换分之到mmall-v1.0==============="
+ git checkout mmall-v1.0
+ echo "==================git fetch======================"
+ git fetch
+ echo "==================git pull======================"
+ git pull 
+ echo "===========编译并跳过单元测试===================="
+ mvn clean package -Dmaven.test.skip=true
+ echo "============删除旧的ROOT.war==================="
+ rm /developer/apache-tomcat-7.0.73/webapps/ROOT.war
+ echo "======拷贝编译出来的war包到tomcat下-ROOT.war======="
+ cp /developer/git-repository/mmall/target/mmall.war  /developer/apache-tomcat-7.0.73/webapps/ROOT.war
+ echo "============删除tomcat下旧的ROOT文件夹============="
+ rm -rf /developer/apache-tomcat-7.0.73/webapps/ROOT
+ echo "====================关闭tomcat====================="
+ /developer/apache-tomcat-7.0.73/bin/shutdown.sh
+ echo "================sleep 10s========================="
+ for i in {1..10}
+ do
+ 	echo $i"s"
+ 	sleep 1s
+ done
+ echo "====================启动tomcat====================="
+ /developer/apache-tomcat-7.0.73/bin/startup.sh
+  `
 
