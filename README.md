@@ -61,11 +61,11 @@
 >* `git config --global alias.br branch`
 
 ####多人协作的工作模式通常是这样：
-> 1.首先，可以试图用`git push origin branch-name`推送自己的修改；   
-> 2.如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；  
+> 1.首先，可以试图用`git push origin branch-name`推送自己的修改； 
+> 2.如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；   
 > 3.如果合并有冲突，则解决冲突，并在本地提交；  
-> 4.没有冲突或者解决掉冲突后， 再用`git push origin branch-name`推送就能成功！  
-> 5.如果`git pull`提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream branch-name origin/branch-name`
+> 4.没有冲突或者解决掉冲突后， 再用`git push origin branch-name`推送就能成功！   
+> 5.如果`git pull`提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream branch-name origin/branch-name`  
 
 
 ###Coding... ...  
@@ -84,23 +84,25 @@
 * `public ServerResponse<String> forgetCheckAnswer(String username,String question,String answer)` 验证用户的提示问题和答案是否正确，如果正确生成token加入缓存
 * `public ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken)` 重置密码需要回传token，并验证旧密码，防止横向越权，验证成功重置密码
 
-后台接口  
-*`public ServerResponse<User> login(HttpSession session,String username,String password)`后台管理员登陆，验证角色及账号密码  
+后台接口
+  
+* `public ServerResponse<User> login(HttpSession session,String username,String password)`后台管理员登陆，验证角色及账号密码  
   
 ####Category module
->1.递归表结构
+>1.递归表结构  
 >2.递归查询  
 
 后台接口  
-*`public ServerResponse addCategory(HttpSession session, Integer parentId, String categoryName) `添加分类，如果是根节点则parentId=0  
-*`public ServerResponse setCategoryName(HttpSession session, Integer categoryId, String categoryName)` 更新分类名称  
-*`public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(defaultValue = "0", value = "categoryId") Integer categoryId) `获取当前分类下所有子分类  
-*`public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session,@RequestParam(defaultValue = "0", value = "categoryId")Integer categoryId) `获取传入分类下所有子分类，递归获取所有子分类，注意返回值用的set集合，故要重写hashcode 和 equals方法      
+* `public ServerResponse addCategory(HttpSession session, Integer parentId, String categoryName) `添加分类，如果是根节点则parentId=0  
+* `public ServerResponse setCategoryName(HttpSession session, Integer categoryId, String categoryName)` 更新分类名称  
+* `public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(defaultValue = "0", value = "categoryId") Integer categoryId) `获取当前分类下所有子分类  
+* `public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session,@RequestParam(defaultValue = "0", value = "categoryId")Integer categoryId) `获取传入分类下所有子分类，递归获取所有子分类，注意返回值用的set集合，故要重写hashcode 和 equals方法      
 
 
 
 ####Product module
-1.PageHelper的基本用法
+
+1.PageHelper的基本用法  
 > 1.声明分页和排序  
 `PageHelper.startPage(page, size);`  
 `PageHelper.orderBy(orderBys[0]+" "+orderBys[1]);`  
@@ -116,31 +118,31 @@
 > 4.发送到ftp服务器储存,此处用到FTPUtil工具类负责连接ftp服务及上传文件,构建方式值得学习  
 > 5.返回地址和文件名至前端  
   
-4.表结构中主图，子图，富文本详情的储存
+4.表结构中主图，子图，富文本详情的储存  
 
 前台接口  
-*`public ServerResponse detail(Integer productId)`
-*`public ServerResponse list(@RequestParam(value = "keyWord",required = false) String keyWord,
+* `public ServerResponse detail(Integer productId)`
+* `public ServerResponse list(@RequestParam(value = "keyWord",required = false) String keyWord,
                                  @RequestParam(value = "categoryId",required = false) Integer categoryId,
                                  @RequestParam(value = "page",defaultValue = "1") int page,
                                  @RequestParam(value = "size",defaultValue = "10") int size,
                                  @RequestParam(value = "orderBy",defaultValue = "")String orderBy)`根据关键字或者分类id分页获取商品，注意获得是分类及所有子分类的商品
 后台接口  
-*`public ServerResponse save(HttpSession session, Product product)`新增或更新商品  
-*`public ServerResponse detail(HttpSession session,Integer productId)`获取商品详情  
-*`public ServerResponse setSaleStatus(HttpSession session,Integer productId,Integer status)`设置商品的销售状态
-*`public ServerResponse list(HttpSession session,
+* `public ServerResponse save(HttpSession session, Product product)`新增或更新商品  
+* `public ServerResponse detail(HttpSession session,Integer productId)`获取商品详情  
+* `public ServerResponse setSaleStatus(HttpSession session,Integer productId,Integer status)`设置商品的销售状态
+* `public ServerResponse list(HttpSession session,
                                  @RequestParam(value = "page",defaultValue = "1") Integer page,
                                  @RequestParam(value = "size",defaultValue = "10") Integer size)`分页获取商品列表
-*`public ServerResponse search(HttpSession session,
+* `public ServerResponse search(HttpSession session,
                                    String productName,
                                    Integer productId,
                                    @RequestParam(value = "page",defaultValue = "1") Integer page,
                                    @RequestParam(value = "size",defaultValue = "10") Integer size)`根据商品名模糊查询 和 商品id查询                                     
-*` public ServerResponse upload(HttpSession session,
+* ` public ServerResponse upload(HttpSession session,
                                    @RequestParam(value = "upload_file") MultipartFile file,
                                    HttpServletRequest request)` 上传图片，后台将图片传至http服务器，返回uri url，主要用在添加商品时增加商品的上传图片，数据库储存上传返回的uri ,url 用于预览
-*`public Map richtextImgUpload(HttpSession session,
+* `public Map richtextImgUpload(HttpSession session,
                                    @RequestParam(value = "upload_file") MultipartFile file,
                                    HttpServletRequest request,
                                    HttpServletResponse response)`富文本上传图片，返回值为富文本要求格式，其余同上
@@ -148,15 +150,15 @@
 ####Cart module
 1.对购物车的所有操作最终都将返回整体购物车的信息，所以封装了高复用的购物车信息方法  
 
-*`public ServerResponse list(HttpSession session)`获取购物车列表数据  
-*`public ServerResponse add(HttpSession session, Integer productId, Integer count) `用户将指定数量的指定商品加入购物车  
-*`public ServerResponse update(HttpSession session, Integer productId, Integer count)`用户更新指定商品在购物车内的数量  
-*`public ServerResponse delete(HttpSession session, String productIds) `用户删除购物车内的商品可批量  
-*`public ServerResponse selectAll(HttpSession session)`全选  
-*`public ServerResponse unSelectAll(HttpSession session)`取消全选  
-*`public ServerResponse select(HttpSession session, Integer productId)`选中指定商品  
-*`public ServerResponse unSelect(HttpSession session, Integer productId)`取消选中指定商品  
-*`public ServerResponse getCartProductCount(HttpSession session)`获取商品的累加数量  
+* `public ServerResponse list(HttpSession session)`获取购物车列表数据  
+* `public ServerResponse add(HttpSession session, Integer productId, Integer count) `用户将指定数量的指定商品加入购物车  
+* `public ServerResponse update(HttpSession session, Integer productId, Integer count)`用户更新指定商品在购物车内的数量  
+* `public ServerResponse delete(HttpSession session, String productIds) `用户删除购物车内的商品可批量  
+* `public ServerResponse selectAll(HttpSession session)`全选  
+* `public ServerResponse unSelectAll(HttpSession session)`取消全选  
+* `public ServerResponse select(HttpSession session, Integer productId)`选中指定商品  
+* `public ServerResponse unSelect(HttpSession session, Integer productId)`取消选中指定商品  
+* `public ServerResponse getCartProductCount(HttpSession session)`获取商品的累加数量  
 
 ####Shipping module
 > 1.常规模块 熟悉一下数据表结构
@@ -172,20 +174,20 @@
 > 4.` ./natapp -authtoken=2021a2d30ae70b65`外网穿透
   
 前台接口  
-*`public ServerResponse create(HttpSession session, Integer shippingId)`用户结算购物车内所有勾选的商品，创建订单 并 生成订单详情存入数据库（每件结算商品生成一个订单详情），注意减少库存和清除购物车；  
-*`public ServerResponse cancel(HttpSession session, Long orderNo)`用户取消订单，即更新订单状态  
-*`public ServerResponse getOrderCartProduct(HttpSession session)`获取用户购物车内勾选商品的信息  
-*`public ServerResponse detail(HttpSession session,Long orderNo)`获取用户指定订单的详情  
-*`public ServerResponse list(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize)`分页用户的获取订单列表  
-*`public ServerResponse pay(HttpSession session, Long orderNo, HttpServletRequest request)`支付宝支付接口，向支付宝申请预下单，调用支付宝接入，得到支付宝下单成功则返回前端二维码图片的地址，提供回调接口被支付宝调用
-*`public ServerResponse<Boolean> queryOrderPayStatus(HttpSession session, Long orderNo)`前端用于轮询的订单状态  
+* `public ServerResponse create(HttpSession session, Integer shippingId)`用户结算购物车内所有勾选的商品，创建订单 并 生成订单详情存入数据库（每件结算商品生成一个订单详情），注意减少库存和清除购物车；  
+* `public ServerResponse cancel(HttpSession session, Long orderNo)`用户取消订单，即更新订单状态  
+* `public ServerResponse getOrderCartProduct(HttpSession session)`获取用户购物车内勾选商品的信息  
+* `public ServerResponse detail(HttpSession session,Long orderNo)`获取用户指定订单的详情  
+* `public ServerResponse list(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize)`分页用户的获取订单列表  
+* `public ServerResponse pay(HttpSession session, Long orderNo, HttpServletRequest request)`支付宝支付接口，向支付宝申请预下单，调用支付宝接入，得到支付宝下单成功则返回前端二维码图片的地址，提供回调接口被支付宝调用
+* `public ServerResponse<Boolean> queryOrderPayStatus(HttpSession session, Long orderNo)`前端用于轮询的订单状态  
 后台接口  
-*` public ServerResponse<PageInfo> orderList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
+* ` public ServerResponse<PageInfo> orderList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
                                                 @RequestParam(value = "pageSize",defaultValue = "10")int pageSize)`管理员分页获取订单列表  
-*`public ServerResponse<OrderVo> orderDetail(HttpSession session, Long orderNo)`管理员获取指定订单的详情
-*`public ServerResponse<PageInfo> orderSearch(HttpSession session, Long orderNo,@RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
+* `public ServerResponse<OrderVo> orderDetail(HttpSession session, Long orderNo)`管理员获取指定订单的详情
+* `public ServerResponse<PageInfo> orderSearch(HttpSession session, Long orderNo,@RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
                                                   @RequestParam(value = "pageSize",defaultValue = "10")int pageSize)`根据订单编号搜索订单
-*`public ServerResponse<String> orderSendGoods(HttpSession session, Long orderNo)`管理员对订单发货处理  
+* `public ServerResponse<String> orderSendGoods(HttpSession session, Long orderNo)`管理员对订单发货处理  
 
 ####linux deploy
 准备服务器,如果购买阿里云ECS服务器,按正常购买步骤,注意配置安全组,可选择镜像市场中的配置好的镜像,也可自己配置以下为自己配置的全过程
