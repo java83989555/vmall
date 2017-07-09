@@ -92,10 +92,10 @@
 >2.递归查询  
 
 后台接口  
-*`public ServerResponse addCategory(HttpSession session, Integer parentId, String categoryName) `添加分类，如果是根节点则parentId=0
-*`public ServerResponse setCategoryName(HttpSession session, Integer categoryId, String categoryName)` 更新分类名称
-*`public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(defaultValue = "0", value = "categoryId") Integer categoryId) `获取当前分类下所有子分类
-*`public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session,@RequestParam(defaultValue = "0", value = "categoryId")Integer categoryId) `获取传入分类下所有子分类，递归获取所有子分类，注意返回值用的set集合，故要重写hashcode 和 equals方法    
+*`public ServerResponse addCategory(HttpSession session, Integer parentId, String categoryName) `添加分类，如果是根节点则parentId=0  
+*`public ServerResponse setCategoryName(HttpSession session, Integer categoryId, String categoryName)` 更新分类名称  
+*`public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(defaultValue = "0", value = "categoryId") Integer categoryId) `获取当前分类下所有子分类  
+*`public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session,@RequestParam(defaultValue = "0", value = "categoryId")Integer categoryId) `获取传入分类下所有子分类，递归获取所有子分类，注意返回值用的set集合，故要重写hashcode 和 equals方法      
 
 
 
