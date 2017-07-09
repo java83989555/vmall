@@ -1,11 +1,11 @@
-#keep learning...
+# keep learning...
 
-###init project repository  
+### init project repository  
 > 1.git网站上创建远程仓库  
 > 2.复制ssh地址 本地仓库管理远程仓库  
 > 3.gitignore 文件用于过滤 提交文件  
 
-###git命令
+### git命令
 >* `touch README.md` 创建文件
 >* `git init` #初始化项目
 >* `git status` #查看状态
@@ -21,7 +21,7 @@
 >* `git checkout` -- 文件名 #可以撤销工作区的修改 总之，就是让这个文件回到最近一次git commit或git add时的状态
 >* `git reset HEAD file`  #可以把暂存区的修改撤销掉（unstage），重新放回工作区
 
-####分支操作
+#### 分支操作
 >* `git branch` 查看分支：
 >* `git branch -a`  查看远程仓库和本地分支
 >* `git branch branch-name` 创建分支：
@@ -42,7 +42,7 @@
 >* `git remote -v` 获取远程仓库信息
 >* `git branch --set-upstream branch-name origin/branch-name` 建立本地分支和远程分支的关联
 
-####多人协作的工作模式通常是这样：
+#### 多人协作的工作模式通常是这样：
 > 1.首先，可以试图用git push origin branch-name推送自己的修改；
 > 2.如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
 > 3.如果合并有冲突，则解决冲突，并在本地提交；
@@ -55,12 +55,12 @@
 >* `git tag v0.9 6224937` 对指定commit id 打标签
 >* `git show <tagname>` 查看指定标签的信息  
 >*  需要注意不能与分支重名否则push不上
-####别名--偷懒
+#### 别名--偷懒
 >* `git config --global alias.co checkout`
 >* `git config --global alias.ci commit`
 >* `git config --global alias.br branch`
 
-####多人协作的工作模式通常是这样：
+#### 多人协作的工作模式通常是这样：
 > 1.首先，可以试图用`git push origin branch-name`推送自己的修改； 
 > 2.如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；   
 > 3.如果合并有冲突，则解决冲突，并在本地提交；  
@@ -68,8 +68,8 @@
 > 5.如果`git pull`提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream branch-name origin/branch-name`  
 
 
-###Coding... ...  
-####User module
+### Coding... ...  
+#### User module
 >1.enum 枚举 其本身就是一个java类，他继承类java.lang.enum[详细介绍连接](http://www.cnblogs.com/hemingwang0902/archive/2011/12/29/2306263.html#title-1),本项目做常量使用。  
 >2.StringUtils 字符串工具类 解决了原来频繁判断null和空串的编码,后期长期使用org.apache.commons.commons-lang3    
 >3.缓存的使用,本项目中用的是google的Guava缓存,主要用来储存一定有效期的数据，通过缓存设置存储空间大小，有效期时间，key-value形式存储[参考资料](http://ifeve.com/google-guava-cachesexplained/)  
@@ -88,7 +88,7 @@
   
 * `public ServerResponse<User> login(HttpSession session,String username,String password)`后台管理员登陆，验证角色及账号密码  
   
-####Category module
+#### Category module
 >1.递归表结构  
 >2.递归查询  
 
@@ -100,7 +100,7 @@
 
 
 
-####Product module
+#### Product module
 
 1.PageHelper的基本用法  
 > 1.声明分页和排序  
@@ -147,7 +147,7 @@
                                    HttpServletRequest request,
                                    HttpServletResponse response)`富文本上传图片，返回值为富文本要求格式，其余同上
                                    
-####Cart module
+#### Cart module
 1.对购物车的所有操作最终都将返回整体购物车的信息，所以封装了高复用的购物车信息方法  
 
 * `public ServerResponse list(HttpSession session)`获取购物车列表数据  
@@ -160,14 +160,14 @@
 * `public ServerResponse unSelect(HttpSession session, Integer productId)`取消选中指定商品  
 * `public ServerResponse getCartProductCount(HttpSession session)`获取商品的累加数量  
 
-####Shipping module
+#### Shipping module
 > 1.常规模块 熟悉一下数据表结构
 > 2.useGeneratedKeys="true" keyProperty="id" mybatis 插入数据返回id设置
 
 前台接口  
 * 常规的增删改查结构，不多赘述了
 
-####Order module
+#### Order module
 > 1.对接支付宝当面付款流程  
 > 2.沙箱测试环境的调试  
 > 3.订单操作接口中保证数据的对称,及返回前端的数据VO对象结构思想值得学习借鉴  
@@ -189,7 +189,7 @@
                                                   @RequestParam(value = "pageSize",defaultValue = "10")int pageSize)`根据订单编号搜索订单
 * `public ServerResponse<String> orderSendGoods(HttpSession session, Long orderNo)`管理员对订单发货处理  
 
-####linux deploy
+#### linux deploy
 准备服务器,如果购买阿里云ECS服务器,按正常购买步骤,注意配置安全组,可选择镜像市场中的配置好的镜像,也可自己配置以下为自己配置的全过程
   
 1.配置aliyun数据源  
