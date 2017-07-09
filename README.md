@@ -12,7 +12,7 @@
 >* `git add .` #添加变更文件到本地仓库
 >* `git commit -am"XXXXX"` #提交到本地仓库+注释
 >* `git remote add origin` #要关联一个远程库复制ssh地址跟在后面
->* `git push origin HEAD -u` #提交到远程创建到分支   
+>* `git push origin HEAD -u` #推送本地分支到 远程仓库  
 >* `git pull` #拉取git网站上的代码
 >* `git push -u origin master` #推送代码到分支
 >* `git push -u -f origin master` #如果上面没成功 采用这个强制更新
@@ -71,15 +71,35 @@
 ###Coding... ...  
 ####User module
 >1.enum 枚举 其本身就是一个java类，他继承类java.lang.enum[详细介绍连接](http://www.cnblogs.com/hemingwang0902/archive/2011/12/29/2306263.html#title-1),本项目做常量使用。  
->2.StringUtils 字符串工具类 解决了原来频繁判断null和空串的编码,后期长期使用org.apache.commons.commons-lang3  
->3.缓存的使用,本项目中用的是google的Guava缓存,主要用来储存一定有效期的数据，通过缓存设置存储空间大小，有效期时间，key-value形式存储[参考资料](http://ifeve.com/google-guava-cachesexplained/)
+>2.StringUtils 字符串工具类 解决了原来频繁判断null和空串的编码,后期长期使用org.apache.commons.commons-lang3    
+>3.缓存的使用,本项目中用的是google的Guava缓存,主要用来储存一定有效期的数据，通过缓存设置存储空间大小，有效期时间，key-value形式存储[参考资料](http://ifeve.com/google-guava-cachesexplained/)  
 
+前台接口
+* `public Object login(String username, String password, HttpSession session)`登陆接口，验证账号及md5加密后的密码正确性，登陆成功用户保存入session    
+* `public ServerResponse<String> logout(HttpSession session)`登出接口，将用户移除session  
+* `public ServerResponse<String> register(User user)`注册接口，需验证邮箱和用户名保证唯一性，确定角色md5加密密码储存    
+* `public ServerResponse<String> checkValid(String str,String type)`提供给前端验证邮箱和用户名  
+* `public ServerResponse<User> geUserInfo(HttpSession session)` 从session获取当前登陆用户的信息，注意密码不可传递到前端  
+* `public ServerResponse<String> forgetGetQuestion(String username)` 通过用户名获取密码提示问题
+* `public ServerResponse<String> forgetCheckAnswer(String username,String question,String answer)` 验证用户的提示问题和答案是否正确，如果正确生成token加入缓存
+* `public ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken)` 重置密码需要回传token，并验证旧密码，防止横向越权，验证成功重置密码
+
+后台接口
+*`public ServerResponse<User> login(HttpSession session,String username,String password)`后台管理员登陆，验证角色及账号密码  
+  
 ####Category module
 >1.递归表结构
 >2.递归查询  
 
-####Product module
+后台接口
+*`public ServerResponse addCategory(HttpSession session, Integer parentId, String categoryName) `添加分类，如果是根节点则parentId=0
+*`public ServerResponse setCategoryName(HttpSession session, Integer categoryId, String categoryName)` 更新分类名称
+*`public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(defaultValue = "0", value = "categoryId") Integer categoryId) `获取当前分类下所有子分类
+*`public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session,@RequestParam(defaultValue = "0", value = "categoryId")Integer categoryId) `获取传入分类下所有子分类，递归获取所有子分类，注意返回值用的set集合，故要重写hashcode 和 equals方法    
 
+
+
+####Product module
 1.PageHelper的基本用法
 > 1.声明分页和排序  
 `PageHelper.startPage(page, size);`  
@@ -98,15 +118,75 @@
   
 4.表结构中主图，子图，富文本详情的储存
 
+前台接口
+*`public ServerResponse detail(Integer productId)`
+*`public ServerResponse list(@RequestParam(value = "keyWord",required = false) String keyWord,
+                                 @RequestParam(value = "categoryId",required = false) Integer categoryId,
+                                 @RequestParam(value = "page",defaultValue = "1") int page,
+                                 @RequestParam(value = "size",defaultValue = "10") int size,
+                                 @RequestParam(value = "orderBy",defaultValue = "")String orderBy)`根据关键字或者分类id分页获取商品，注意获得是分类及所有子分类的商品
+后台接口
+*`public ServerResponse save(HttpSession session, Product product)`新增或更新商品  
+*`public ServerResponse detail(HttpSession session,Integer productId)`获取商品详情  
+*`public ServerResponse setSaleStatus(HttpSession session,Integer productId,Integer status)`设置商品的销售状态
+*`public ServerResponse list(HttpSession session,
+                                 @RequestParam(value = "page",defaultValue = "1") Integer page,
+                                 @RequestParam(value = "size",defaultValue = "10") Integer size)`分页获取商品列表
+*`public ServerResponse search(HttpSession session,
+                                   String productName,
+                                   Integer productId,
+                                   @RequestParam(value = "page",defaultValue = "1") Integer page,
+                                   @RequestParam(value = "size",defaultValue = "10") Integer size)`根据商品名模糊查询 和 商品id查询                                     
+*` public ServerResponse upload(HttpSession session,
+                                   @RequestParam(value = "upload_file") MultipartFile file,
+                                   HttpServletRequest request)` 上传图片，后台将图片传至http服务器，返回uri url，主要用在添加商品时增加商品的上传图片，数据库储存上传返回的uri ,url 用于预览
+*`public Map richtextImgUpload(HttpSession session,
+                                   @RequestParam(value = "upload_file") MultipartFile file,
+                                   HttpServletRequest request,
+                                   HttpServletResponse response)`富文本上传图片，返回值为富文本要求格式，其余同上
+                                   
+####Cart module
+1.对购物车的所有操作最终都将返回整体购物车的信息，所以封装了高复用的购物车信息方法
+
+*`public ServerResponse list(HttpSession session)`获取购物车列表数据
+*`public ServerResponse add(HttpSession session, Integer productId, Integer count) `用户将指定数量的指定商品加入购物车
+*`public ServerResponse update(HttpSession session, Integer productId, Integer count)`用户更新指定商品在购物车内的数量
+*`public ServerResponse delete(HttpSession session, String productIds) `用户删除购物车内的商品可批量
+*`public ServerResponse selectAll(HttpSession session)`全选
+*`public ServerResponse unSelectAll(HttpSession session)`取消全选
+*`public ServerResponse select(HttpSession session, Integer productId)`选中指定商品
+*`public ServerResponse unSelect(HttpSession session, Integer productId)`取消选中指定商品
+*`public ServerResponse getCartProductCount(HttpSession session)`获取商品的累加数量
+
 ####Shipping module
 > 1.常规模块 熟悉一下数据表结构
 > 2.useGeneratedKeys="true" keyProperty="id" mybatis 插入数据返回id设置
+
+前台接口
+* 常规的增删改查结构，不多赘述了
+
 ####Order module
 > 1.对接支付宝当面付款流程  
 > 2.沙箱测试环境的调试  
 > 3.订单操作接口中保证数据的对称,及返回前端的数据VO对象结构思想值得学习借鉴  
 > 4.` ./natapp -authtoken=2021a2d30ae70b65`外网穿透
   
+前台接口
+*`public ServerResponse create(HttpSession session, Integer shippingId)`用户结算购物车内所有勾选的商品，创建订单 并 生成订单详情存入数据库（每件结算商品生成一个订单详情），注意减少库存和清除购物车；  
+*`public ServerResponse cancel(HttpSession session, Long orderNo)`用户取消订单，即更新订单状态  
+*`public ServerResponse getOrderCartProduct(HttpSession session)`获取用户购物车内勾选商品的信息  
+*`public ServerResponse detail(HttpSession session,Long orderNo)`获取用户指定订单的详情  
+*`public ServerResponse list(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize)`分页用户的获取订单列表  
+*`public ServerResponse pay(HttpSession session, Long orderNo, HttpServletRequest request)`支付宝支付接口，向支付宝申请预下单，调用支付宝接入，得到支付宝下单成功则返回前端二维码图片的地址，提供回调接口被支付宝调用
+*`public ServerResponse<Boolean> queryOrderPayStatus(HttpSession session, Long orderNo)`前端用于轮询的订单状态  
+后台接口
+*` public ServerResponse<PageInfo> orderList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
+                                                @RequestParam(value = "pageSize",defaultValue = "10")int pageSize)`管理员分页获取订单列表  
+*`public ServerResponse<OrderVo> orderDetail(HttpSession session, Long orderNo)`管理员获取指定订单的详情
+*`public ServerResponse<PageInfo> orderSearch(HttpSession session, Long orderNo,@RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
+                                                  @RequestParam(value = "pageSize",defaultValue = "10")int pageSize)`根据订单编号搜索订单
+*`public ServerResponse<String> orderSendGoods(HttpSession session, Long orderNo)`管理员对订单发货处理  
+
 ####linux deploy
 准备服务器,如果购买阿里云ECS服务器,按正常购买步骤,注意配置安全组,可选择镜像市场中的配置好的镜像,也可自己配置以下为自己配置的全过程
   
@@ -222,20 +302,13 @@ Mysql 的配置
 > 2.下载依赖`sudo yum -y install zlib-devel openssl-devel cpio expat-devel gettext-devel curl-devel perl-ExtUtils-CBuilder perl-ExtUtils- MakeMaker`  
 > 3.安装到 `sudo make preifx=/usr/local/git all` 结束后继续`sudo make prefix=/usr/local/git install`  
 > 4.配置环境变量`sudo vim /etc/profile` 刷新环境变量`source /etc/profile`  
-> 5.设置用户名`git config --global user.name "Your Name"`设置邮箱`git config --global user.email "youremail@domain.com"`    
-> 6.`git config --global core.autocrlf false` 换行符转换问题
-> 7.`git config --global core.quotepath off`  避免中文乱码问题 
-> 8.`git config --global gui.encoding utf-8` 
-> 9.`ssh-keygen -t rsa -C "83989555@qq.com"` 生成密钥
+> 5.设置用户名`git config --global user.name "Your Name"`设置邮箱`git config --global user.email "youremail@domain.com"`      
+> 6.`git config --global core.autocrlf false` 换行符转换问题 
+> 7.`git config --global core.quotepath off`  避免中文乱码问题  
+> 8.`git config --global gui.encoding utf-8`  
+> 9.`ssh-keygen -t rsa -C "83989555@qq.com"` 生成密钥  
 > 10.`ssh-add ~/.ssh/id_rsa` 如果出现`Could not open a connection to your authentication agent.` 继续  eval `ssh-agent`  
 
 
-10.iptables
-> 1.
-> 2.
-> 3.
-> 4.
-> 5.
-> 6.
 
 

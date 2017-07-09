@@ -38,6 +38,7 @@ public class CartController {
      * "message":
      * }
      */
+
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse list(HttpSession session) {

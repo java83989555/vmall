@@ -171,7 +171,8 @@ public class ProductManageController {
         }
         if (iUserService.checkAdminRole(user).isSuccess()){
             String path=request.getSession().getServletContext().getRealPath("upload");
-            String targetFileName=iFileService.upload(file,path);  if(StringUtils.isBlank(targetFileName)){
+            String targetFileName=iFileService.upload(file,path);
+            if(StringUtils.isBlank(targetFileName)){
                 resultMap.put("success",false);
                 resultMap.put("msg","上传失败");
                 return resultMap;
