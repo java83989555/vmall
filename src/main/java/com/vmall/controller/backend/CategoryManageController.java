@@ -36,7 +36,7 @@ public class CategoryManageController {
     public ServerResponse addCategory(HttpSession session, Integer parentId, String categoryName) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LONGIN.getCode(), "未登陆");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登陆");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
             return iCategoryService.insertCategory(parentId, categoryName);
@@ -52,7 +52,7 @@ public class CategoryManageController {
     public ServerResponse setCategoryName(HttpSession session, Integer categoryId, String categoryName) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LONGIN.getCode(), "未登陆");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登陆");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
             return iCategoryService.updateCategory(categoryId, categoryName);
@@ -62,12 +62,18 @@ public class CategoryManageController {
 
     }
 
+    /**
+     * 获取当前分类所有平级分类信息
+     * @param session
+     * @param categoryId
+     * @return
+     */
     @RequestMapping(value = "get_category", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(defaultValue = "0", value = "categoryId") Integer categoryId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LONGIN.getCode(), "未登陆");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登陆");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
             //获取平级子分类不递归
@@ -77,12 +83,18 @@ public class CategoryManageController {
         }
     }
 
+    /**
+     * 递归获取当前分类ID 和其 所有子孙分类ID
+     * @param session
+     * @param categoryId
+     * @return
+     */
     @RequestMapping(value = "get_deep_category", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session,@RequestParam(defaultValue = "0", value = "categoryId")Integer categoryId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LONGIN.getCode(), "未登陆");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登陆");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
             //获取给定品类 下属所有分类ID 递归获取

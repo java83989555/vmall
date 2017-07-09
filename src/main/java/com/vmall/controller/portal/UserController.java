@@ -171,7 +171,7 @@ public class UserController {
     public ServerResponse<User> getInformation(HttpSession session){
         User currentUser= (User) session.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LONGIN.getCode(),"用户未登陆");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登陆");
         }
        return iUserService.getInformation(currentUser.getId());
     }
